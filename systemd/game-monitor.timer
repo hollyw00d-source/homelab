@@ -1,0 +1,13 @@
+[Unit]
+Description=Run Game Monitor every 5 minutes
+
+[Timer]
+# Wait 2 minutes after the VM boots before the first run
+OnBootSec=2min
+# Run again 5 minutes after the service last finished
+OnUnitActiveSec=5min
+# Explicitly link this timer to your monitor service
+Unit=game-monitor.service
+
+[Install]
+WantedBy=timers.target

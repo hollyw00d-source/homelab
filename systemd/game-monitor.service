@@ -1,0 +1,7 @@
+[Service]
+Type=oneshot
+# Update the path to the new home directory
+ExecStart=/usr/bin/python3 /home/gamedig_svc/scripts/monitor/game_monitor.py
+# Change the user context
+User=gamedig_svc
+Group=gamedig_svc
