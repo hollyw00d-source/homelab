@@ -1,48 +1,27 @@
-# Control Tower Monitoring Hub
+# 🗼 Control Tower: Engineering Journal
 
-## Overview
-This repository contains the automation logic for monitoring game servers within the home lab. It is designed to run on a bare-metal Fedora VM to avoid network abstraction layers and ensure high-performance telemetry.
+## 📝 Project Vision
+This journal documents the evolution of **Control Tower** (VM 102), a centralized monitoring hub designed to provide telemetry for my **Proxmox**-hosted game servers. This project bridges the gap between enterprise-grade virtualization and community interaction.
 
-Currently, this project serves as a **Proof of Concept (PoC)** for the interaction between our Control Tower, Game Server, and Docker environments.
-
-## Infrastructure Environment
-The home lab is anchored by enterprise-grade hardware and virtualization:
-
-- **Host Hardware:** Dell PowerEdge R630
-- **Hypervisor:** Proxmox VE
-- **Networking:** Integrated with a TP-Link SG2428P and a 1Gbps backbone
-
-### Virtual Machine Topology (Fedora)
-| VM ID | Hostname | Role | Status |
+## 🛠 Infrastructure Topology
+| Component | Hardware/Software | Role | Status |
 | :--- | :--- | :--- | :--- |
-| **100** | `docker-host` | Containerized services & micro-orchestration | PoC Phase |
-| **101** | `game-server` | Dedicated game server hosting (7d2d) | PoC Phase |
-| **102** | `control-tower` | Centralized monitoring and alerting | **Active** |
+| **Host Node** | Dell PowerEdge R630 | Bare-metal hypervisor | **Active** |
+| **VM 101** | Fedora Server | Target: 7 Days to Die (7d2d) | PoC Phase |
+| **VM 102** | Fedora Server | Source: Monitoring & Discord Bot | **Active** |
 
-## Technical Stack
-- **OS:** Fedora Linux (VM 102)
-- **Languages:** Python 3.11+
-- **Tooling:** Node.js & Gamedig (Global)
-- **Libraries:** `requests`
+---
 
-## Implementation Details
+## 📓 Entry 1: Discord Bot Integration & Hardening
+**Date:** May 4, 2026
 
-### 1. Security & Secrets Management
-Following industry standards for systems engineering, this project utilizes **Environment Variables** (`os.getenv`) to separate logic from sensitive configuration.
-- **Service Account:** `gamedig_svc`
-- **Working Directory:** `/home/gamedig_svc/scripts/monitor/`
-- **Secrets:** Webhook URLs and internal IPs are injected via Systemd environment files to prevent exposure in source control.
+### Objective
+Transition from a manual monitoring script to a persistent **systemd** service that integrates with Discord to provide real-time server stats for the community.
 
-### 2. Monitoring Logic
-The `game_monitor.py` script utilizes `gamedig` to query the status of the **VM 101** game server. Status updates, player counts, and heartbeat alerts are pushed to a Discord webhook.
-
-### 3. Automation Schedule
-Systemd handles the execution lifecycle on `control-tower`:
-- **Interval:** Every 5 minutes
-- **Service Type:** `oneshot`
-- **Timer:** Triggered 2 minutes post-boot and 5 minutes post-completion
-
-## Maintenance & Logs
-Check service logs:
-```bash
-journalctl -u game-monitor.service -f
+### 🚧 Pitfall 1: The SELinux "Wall"
+*   **The Struggle:** After deploying the `game-monitor.service`, it consistently failed with a `Result: resources` error. Despite using `sudo`, the system refused to read the `.env` file.
+*   **The Learning:** Windows-style permissions didn't apply here. Fedora’s **SELinux** policy blocks `systemd` from accessing `/home/` directories by default.
+*   **The Fix:** Manually relabeled the security contexts to allow the service to bridge the gap between the user directory and the system manager.
+    ```bash
+    sudo chcon -t etc_t /home/gamedig_svc/scripts/monitor/.env
+    sudo chcon -t bin_t /home/gamedig_svc/scripts/monitor/game_monitor.py
