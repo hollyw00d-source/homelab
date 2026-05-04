@@ -6,6 +6,7 @@ This journal documents the evolution of **Control Tower** (VM 102), a centralize
 ## 🛠 Infrastructure Topology
 | Component | Hardware/Software | Role | Status |
 | :--- | :--- | :--- | :--- |
+| **Firewall** | Dell XPS | Firewall/Router | **Active** |
 | **Host Node** | Dell PowerEdge R630 | Bare-metal hypervisor | **Active** |
 | **VM 101** | Fedora Server | Target: 7 Days to Die (7d2d) | PoC Phase |
 | **VM 102** | Fedora Server | Source: Monitoring & Discord Bot | **Active** |
@@ -25,8 +26,6 @@ Transition from a manual monitoring script to a persistent **systemd** service t
     ```bash
     sudo chcon -t etc_t /home/gamedig_svc/scripts/monitor/.env
     sudo chcon -t bin_t /home/gamedig_svc/scripts/monitor/game_monitor.py
-
-
 ## 📓 Entry 2: External Connectivity & DDNS
 **Date:** May 4, 2026
 
@@ -40,3 +39,12 @@ Enable consistent external access to `adorablebrat.com` despite a dynamic reside
 
 ### 🚧 Technical Note
 While web-based alerting will be proxied, game traffic for Ark/Enshrouded will utilize DNS-only records to ensure low-latency UDP performance without Cloudflare's proxy interference.
+
+## 📓 Entry 3: Game Server (VM 101) Provisioning
+**Date:** May 4, 2026
+
+### Objective
+Deploy a Fedora-based game server for Ark and Enshrouded, utilizing the HomeLab VLAN for network isolation
+
+### 🚧 Current Hurdle
+*  Networking: Configuring the pfSense rules to allow incoming UDP traffic on specific game ports (e.g., 7777, 27015) while maintaining isolation from the management network..
