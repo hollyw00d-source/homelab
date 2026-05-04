@@ -25,3 +25,18 @@ Transition from a manual monitoring script to a persistent **systemd** service t
     ```bash
     sudo chcon -t etc_t /home/gamedig_svc/scripts/monitor/.env
     sudo chcon -t bin_t /home/gamedig_svc/scripts/monitor/game_monitor.py
+
+
+## 📓 Entry 2: External Connectivity & DDNS
+**Date:** May 4, 2026
+
+### Objective
+Enable consistent external access to `adorablebrat.com` despite a dynamic residential IP.
+
+### 🏗 Implementation
+*   **Service:** Cloudflare DDNS (Docker Container)
+*   **Host:** `docker-host` (VM 100)
+*   **Logic:** The container monitors the public IP and utilizes the Cloudflare API to update A/AAAA records automatically.
+
+### 🚧 Technical Note
+While web-based alerting will be proxied, game traffic for Ark/Enshrouded will utilize DNS-only records to ensure low-latency UDP performance without Cloudflare's proxy interference.
