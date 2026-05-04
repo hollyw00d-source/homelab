@@ -48,3 +48,17 @@ Deploy a Fedora-based game server for Ark and Enshrouded, utilizing the HomeLab 
 
 ### 🚧 Current Hurdle
 *  Networking: Configuring the pfSense rules to allow incoming UDP traffic on specific game ports (e.g., 7777, 27015) while maintaining isolation from the management network..
+## 📓 Entry 4: External Connectivity & DDNS Re-Do
+**Date:** May 4, 2026
+
+### Objective
+Streamline the architectural shift from Docker-based Dynamic DNS to a native pfSense edge implementation for adorablebrat.com and associated game servers.
+### 🏗 Implementation
+*   **Infrastructure Pivot:** Deprecated the `oznu/cloudflare-ddns` Docker container on VM 100 due to persistent `400/401` authentication errors and logic conflicts between legacy API keys and modern scoped tokens
+*   **Log Diagnostics:** Monitored the `System > General` logs in pfSense to verify successful API handshakes with `api.cloudflare.com`. Handshakes were confirmed via `php-fpm` cookie receipts, but updates initially failed with a "null" status.
+*   **Credential Hardening:** Resolved "silent failures" by clearing the *Username* field in pfSense (forcing Bearer Token mode) and explicitly defining the *Zone ID* to ensure the scoped token correctly identified the target domain.
+*   **Record Initialization Breakthrough:** Identified that the pfSense DDNS client acts as an "Updater" rather than a "Provisioner". Successful synchronization was achieved only after manually "seeding" a placeholder A-record (e.g., `1.1.1.1` with "DNS Only" status) in the Cloudflare Dashboard.
+*   **Linal Validation:** Verified that `ark.adorablebrat.com` is live and successfully overwriting the placeholder with the current WAN IP.
+
+### Outcome
+*  The home lab now utilizes edge-based DDNS, ensuring near-instantaneous updates to Cloudflare upon WAN interface changes, providing stable access for the game server community.
