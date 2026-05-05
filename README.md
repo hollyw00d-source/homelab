@@ -6,7 +6,7 @@ This journal documents the evolution of **Control Tower** (VM 102), a centralize
 ## 🛠 Infrastructure Topology
 | Component | Hardware/Software | Role | Status |
 | :--- | :--- | :--- | :--- |
-| **Firewall** | Dell XPS | Firewall/Router | **Active** |
+| **Firewall** | Dell XPS | Firewall/Router/DDNS | **Active** |
 | **Host Node** | Dell PowerEdge R630 | Bare-metal hypervisor | **Active** |
 | **VM 100** | Fedora Server | Docker | **Active** |
 | **VM 101** | Fedora Server | Target: ARK | *PoC Phase* |
