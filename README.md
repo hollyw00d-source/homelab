@@ -8,7 +8,8 @@ This journal documents the evolution of **Control Tower** (VM 102), a centralize
 | :--- | :--- | :--- | :--- |
 | **Firewall** | Dell XPS | Firewall/Router | **Active** |
 | **Host Node** | Dell PowerEdge R630 | Bare-metal hypervisor | **Active** |
-| **VM 101** | Fedora Server | Target: 7 Days to Die (7d2d) | PoC Phase |
+| **VM 100** | Fedora Server | Docker | **Active** |
+| **VM 101** | Fedora Server | Target: ARK | *PoC Phase* |
 | **VM 102** | Fedora Server | Source: Monitoring & Discord Bot | **Active** |
 
 ---
