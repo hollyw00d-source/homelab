@@ -58,7 +58,7 @@ Streamline the architectural shift from Docker-based Dynamic DNS to a native pfS
 *   **Log Diagnostics:** Monitored the `System > General` logs in pfSense to verify successful API handshakes with `api.cloudflare.com`. Handshakes were confirmed via `php-fpm` cookie receipts, but updates initially failed with a "null" status.
 *   **Credential Hardening:** Resolved "silent failures" by clearing the *Username* field in pfSense (forcing Bearer Token mode) and explicitly defining the *Zone ID* to ensure the scoped token correctly identified the target domain.
 *   **Record Initialization Breakthrough:** Identified that the pfSense DDNS client acts as an "Updater" rather than a "Provisioner". Successful synchronization was achieved only after manually "seeding" a placeholder A-record (e.g., `1.1.1.1` with "DNS Only" status) in the Cloudflare Dashboard.
-*   **Linal Validation:** Verified that `ark.adorablebrat.com` is live and successfully overwriting the placeholder with the current WAN IP.
+*   **Final Validation:** Verified that `ark.adorablebrat.com` is live and successfully overwriting the placeholder with the current WAN IP.
 
 ### Outcome
 *  The home lab now utilizes edge-based DDNS, ensuring near-instantaneous updates to Cloudflare upon WAN interface changes, providing stable access for the game server community.
