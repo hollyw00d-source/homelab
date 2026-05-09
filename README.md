@@ -63,3 +63,14 @@ Streamline the architectural shift from Docker-based Dynamic DNS to a native pfS
 
 ### Outcome
 *  The home lab now utilizes edge-based DDNS, ensuring near-instantaneous updates to Cloudflare upon WAN interface changes, providing stable access for the game server community.
+
+## 📓 Entry 5: Game Server (VM 101) Provisioning
+**Date:** May 8, 2026
+
+### Objective
+Deploy a Fedora-based game server for Ark and Enshrouded, utilizing the HomeLab VLAN for network isolation
+### 🏗 Implementation
+*   **Infrastructure Pivot:** I've been noticing that game servers, espcially with Steam are difficult to get working because a lot of the binaries and dependencies are Windows specific. As such I've switch to Server 2025 Eval for now. 
+*   **Networking:** I spent a few days trying to understand why my port forwarding from external over specific ports to internal static IP would not work. I could find my ARK server in LAN browsing but not online. Eventually I realized that NAT Reflection is a thing. Once I turned that on, everything was great. 
+### Outcome
+*  ark.adorablebrat.com:27015 now will connect you to my private ARK server.
